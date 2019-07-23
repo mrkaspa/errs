@@ -2,7 +2,7 @@
   (:require [clojure.test :refer :all]
             [errs.core :refer :all]))
 
-(deftest a-test
+(deftest if-ok
   (testing "When an error comes"
     (let [res (-> (ok 1)
                   (if-ok (try-ok #(ok (/ % 0))))
