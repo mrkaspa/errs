@@ -20,4 +20,4 @@
   ([f & args]
    (try (apply f args)
         (catch Exception e
-          [:error (.getMessage e)]))))
+          (error (.getMessage e))))))
