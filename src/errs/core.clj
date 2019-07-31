@@ -1,8 +1,10 @@
 (ns errs.core)
 
-(defn if-ok [res continuation]
+(defn if-ok [res ^clojure.lang.IFn f]
+  "If res has a shape {:ok any} calls continuation with 
+   the any value"
   (if-let [vars (:ok res)]
-    (apply continuation [vars])
+    (apply f [vars])
     res))
 
 (defn ok [res]
@@ -12,10 +14,10 @@
   {:error err})
 
 (defn try-ok
-  ([f]
+  ([^clojure.lang.IFn f]
    (fn [& args]
      (apply try-ok f args)))
-  ([f & args]
+  ([^clojure.lang.IFn f & args]
    (try (ok (apply f args))
         (catch Exception e
           (error (.getMessage e))))))

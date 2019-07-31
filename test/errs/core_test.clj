@@ -1,6 +1,6 @@
 (ns errs.core-test
-  (:require [clojure.test :refer :all]
-            [errs.core :refer :all]))
+  (:require [clojure.test :refer [deftest is]]
+            [errs.core :refer [ok error if-ok try-ok ok-> ok->>]]))
 
 (deftest test-if-ok
   (testing "When exception"
