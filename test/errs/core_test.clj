@@ -24,7 +24,12 @@
     (let [res (ok-> 1
                     inc
                     inc)]
-      (is (= res (ok 3))))))
+      (is (= res (ok 3)))))
+  (testing "When an error occurs"
+    (let [res (ok-> 1
+                    (fn [n] (error "invalid number"))
+                    inc)]
+      (is (= res (error "invalid number"))))))
 
 (deftest test-ok->>
   (testing "When exception"
