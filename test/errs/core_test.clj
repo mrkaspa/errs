@@ -1,5 +1,5 @@
 (ns errs.core-test
-  (:require [clojure.test :refer [deftest is]]
+  (:require [clojure.test :refer [deftest is testing]]
             [errs.core :refer [ok error if-ok try-ok ok-> ok->>]]))
 
 (deftest test-if-ok
