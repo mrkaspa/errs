@@ -1,11 +1,24 @@
-(ns errs.core)
+(ns errs.core
+  (:require [clojure.spec.alpha :as s]))
 
-(defn if-ok [res ^clojure.lang.IFn f]
+(s/def ::ok int?)
+(s/def ::error int?)
+(s/def ::option (s/or :ok (s/keys :req-un [::ok])
+                      :error (s/keys :req-un [::error])))
+
+(defn if-ok [res f]
   "If res has a shape {:ok any} calls continuation with 
    the any value"
   (if-let [vars (:ok res)]
     (apply f [vars])
     res))
+(s/fdef if-ok
+  :args (s/cat
+         :res ::option
+         :f (s/fspec
+             :args (s/cat :val ::ok)
+             :ret ::option))
+  :ret ::option)
 
 (defn ok [res]
   {:ok res})

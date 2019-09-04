@@ -1,6 +1,10 @@
 (ns errs.core-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [clojure.test :refer [deftest is testing] :as t]
+            [clojure.spec.test.alpha :as stest]
             [errs.core :refer [ok error if-ok try-ok ok-> ok->>]]))
+
+; (stest/instrument)
+; (stest/check `if-ok {:clojure.spec.test.check/opts {:num-tests 50}})
 
 (deftest test-if-ok
   (testing "When exception"
@@ -41,4 +45,9 @@
     (let [res (ok->> 1
                      inc
                      inc)]
-      (is (= res (ok 3))))))
+      (is (= res (ok 3)))))
+  (testing "When an error occurs"
+    (let [res (ok->> 1
+                     (fn [n] (error "invalid number"))
+                     inc)]
+      (is (= res (error "invalid number"))))))
