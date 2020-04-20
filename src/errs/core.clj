@@ -6,9 +6,10 @@
 (s/def ::option (s/or :ok (s/keys :req-un [::ok])
                       :error (s/keys :req-un [::error])))
 
-(defn if-ok [res f]
+(defn if-ok
   "If res has a shape {:ok any} calls continuation with 
    the any value"
+  [res f]
   (if-let [vars (:ok res)]
     (apply f [vars])
     res))
